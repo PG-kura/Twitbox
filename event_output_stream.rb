@@ -19,8 +19,8 @@ class MentionEvents
     ret = ''
     @ev.each do |e|
       case e[:type]
-      when :reply;              ret << 'Ｍ'
-      when :favorite;           ret << '★'
+      when :reply;              ret << 'Rp'
+      when :favorite;           ret << '★ '
       when :retweet;            ret << 'RT'
       when :follow;             ret << 'Fo'
       when :list_member_added;  ret << 'Li'
