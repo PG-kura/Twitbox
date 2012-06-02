@@ -23,8 +23,8 @@ module Twitter
 
       https.request(request) do |response|
         response.read_body do |chunk|
-          json = JSON.parse(chunk.strip)
           begin
+            json = JSON.parse(chunk.strip)
             yield json
           rescue
             puts "#### Parse error ####"
