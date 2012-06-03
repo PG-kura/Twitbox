@@ -33,6 +33,11 @@ class DefaultMode < AbstractMode
   def accept_command(cmd)
     if /^post (.+)/ =~ cmd
       Twitter.post(@consumer, @access_token, $1)
+    elsif /^reps ([\d]+) (.+)/ =~ cmd
+      ret = Twitter.get_post(@consumer, @access_token, $1)
+      if ret[:screen_name]
+        Twitter.post(@consumer, @access_token, "@#{ret[:screen_name]} #{$2}", $1)
+      end
     elsif /^reps ([\d]+)/ =~ cmd
       puts "### 開発中..."
       ret = Twitter.get_post(@consumer, @access_token, $1)
@@ -86,5 +91,5 @@ while line = (STDIN.gets)[0..-2]
   mode = mode.accept_command(line)
   break if mode == nil
 end
-
+puts "" 
 
