@@ -27,7 +27,7 @@ class DefaultMode < AbstractMode
   end
 
   def prompt
-    '[post/favs/RT/exit]: '
+    '[post/fav/RT/exit]: '
   end
   
   def accept_command(cmd)
@@ -48,7 +48,7 @@ class DefaultMode < AbstractMode
           })
         return m
       end
-    elsif /^favs ([\d]+)/ =~ cmd
+    elsif /^fav ([\d]+)/ =~ cmd
       Twitter.favs(@consumer, @access_token, $1)
     elsif /^RT ([\d]+)/ =~ cmd
       Twitter.retweet(@consumer, @access_token, $1)

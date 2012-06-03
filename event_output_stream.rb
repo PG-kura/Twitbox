@@ -3,7 +3,8 @@
 require 'term/ansicolor'
 
 class MentionEvents
-
+  include Term::ANSIColor
+  
   def initialize
     @ev = []
   end
@@ -18,12 +19,13 @@ class MentionEvents
   def to_s
     ret = ''
     @ev.each do |e|
+      recent = (Time.now - e[:time]) < 180
       case e[:type]
-      when :reply;              ret << 'Rp'
-      when :favorite;           ret << '★ '
-      when :retweet;            ret << 'RT'
-      when :follow;             ret << 'Fo'
-      when :list_member_added;  ret << 'Li'
+      when :reply;              ret << (recent ? red('Rp') : 'Rp')
+      when :favorite;           ret << (recent ? yellow('★ ') : '★ ')
+      when :retweet;            ret << (recent ? green('RT') : 'RT')
+      when :follow;             ret << (recent ? cyan('Fo') : 'Fo')
+      when :list_member_added;  ret << (recent ? cyan('Li') : 'Fo')
       end
       ret << ' '
     end
@@ -56,12 +58,12 @@ class EventOutputStream
 
       do_print do
         puts "#{red('mentioned from')} #{cyan(screen_name)} #{dark(name)} #{id}"
-        puts "  #{text}"
+        puts text
       end
     else
       do_print do
         puts "#{cyan(screen_name)} #{dark(name)} #{id}"
-        puts "  #{text}"
+        puts text
       end
     end
   end
@@ -83,13 +85,13 @@ class EventOutputStream
 
       do_print do
         puts "#{green('retweeted by')} #{cyan(screen_name)} #{dark(user_name)} #{id}"
-        puts "  #{text}"
+        puts text
       end
     else
       do_print do
         puts "#{cyan(screen_name)} #{dark(user_name)} #{id}"
         puts "=> RTs #{cyan(org_screen_name)} #{dark(org_user_name)}"
-        puts "  #{text}"
+        puts text
       end
     end
   end

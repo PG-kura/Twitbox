@@ -135,8 +135,9 @@ module Twitter
     text.gsub(/&gt;/, '>').gsub(/&lt;/, '<').gsub(/&quot;/, '\"').gsub(/&amp;/, '&')
   end
 
-  def self.expand(text, info_arr)
-    decode_amps(expand_url(text, info_arr))
+  def self.expand(text, info_arr, indent = 2)
+    prefix = ' ' * indent
+    prefix + decode_amps(expand_url(text, info_arr)).gsub(/\n/, "\n#{prefix}")
   end
 
 end
