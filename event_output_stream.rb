@@ -47,6 +47,7 @@ class EventOutputStream
     screen_name = "@#{p['user']['screen_name']}"
     name        = p['user']['name']
     text        = Twitter.expand(p['text'], p['entities']['urls'])
+    id          = p['id']
     ids         = p['entities']['user_mentions'].collect {|m| m['id']}
 
     if ids.include?(@user[:id])
@@ -54,12 +55,12 @@ class EventOutputStream
       @mention_events.push(:reply)
 
       do_print do
-        puts "#{red('mentioned from')} #{cyan(screen_name)} #{dark(name)}"
+        puts "#{red('mentioned from')} #{cyan(screen_name)} #{dark(name)} #{id}"
         puts "  #{text}"
       end
     else
       do_print do
-        puts "#{cyan(screen_name)} #{dark(name)}"
+        puts "#{cyan(screen_name)} #{dark(name)} #{id}"
         puts "  #{text}"
       end
     end
@@ -72,6 +73,7 @@ class EventOutputStream
     org_screen_name = "@#{prt['user']['screen_name']}"
     org_user_name   = prt['user']['name']
     org_user_id     = p['entities']['user_mentions'][0]['id']
+    id              = prt['id']
 
     text = Twitter.expand(prt['text'], prt['entities']['urls'])
 
@@ -80,12 +82,12 @@ class EventOutputStream
       @mention_events.push(:retweet)
 
       do_print do
-        puts "#{green('retweeted by')} #{cyan(screen_name)} #{dark(user_name)}"
+        puts "#{green('retweeted by')} #{cyan(screen_name)} #{dark(user_name)} #{id}"
         puts "  #{text}"
       end
     else
       do_print do
-        puts "#{cyan(screen_name)} #{dark(user_name)}"
+        puts "#{cyan(screen_name)} #{dark(user_name)} #{id}"
         puts "=> RTs #{cyan(org_screen_name)} #{dark(org_user_name)}"
         puts "  #{text}"
       end

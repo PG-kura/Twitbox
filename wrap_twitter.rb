@@ -80,12 +80,34 @@ module Twitter
     ret
   end
 
+  def self.get_post(consumer, access_token, id)
+    ret = {}
+    oauth_access(consumer, access_token, "https://api.twitter.com/1/statuses/show.json?id=#{id}") do |res|
+      ret[:id]          = res['id']
+      ret[:text]        = res['text']
+      ret[:screen_name] = res['user']['screen_name']
+    end
+    ret
+  end
+
   def self.post(consumer, access_token, status, in_reply_to_status_id = nil)
     url = '/statuses/update.json'
     param = {'status' => status}
     if in_reply_to_status_id
       param['in_reply_to_status_id'] = in_reply_to_status_id
     end
+    access_token.post(url, param)
+  end
+
+  def self.favs(consumer, access_token, id)
+    url = "/favorites/create/#{id}.json"
+    param = {'id' => id}
+    access_token.post(url, param)
+  end
+
+  def self.retweet(consumer, access_token, id)
+    url = "/statuses/retweet/#{id}.json"
+    param = {'id' => id}
     access_token.post(url, param)
   end
 
