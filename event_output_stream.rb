@@ -14,12 +14,15 @@ class MentionEvents
       :time => Time.now,
       :type => type
     }
+    while (Time.now - @ev[0][:time]) > 900 # 15 min
+      @ev.shift
+    end
   end
 
   def to_s
     ret = ''
     @ev.each do |e|
-      recent = (Time.now - e[:time]) < 180
+      recent = (Time.now - e[:time]) < 180 # 3 min
       case e[:type]
       when :reply;              ret << (recent ? red('Rp') : 'Rp')
       when :favorite;           ret << (recent ? yellow('★ ') : '★ ')
