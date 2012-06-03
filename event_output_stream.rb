@@ -41,6 +41,8 @@ class EventOutputStream
     @user           = user
   end
 
+  attr_reader :user
+
   def tweet(p)
     screen_name = "@#{p['user']['screen_name']}"
     name        = p['user']['name']

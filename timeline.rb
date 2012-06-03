@@ -13,6 +13,8 @@ $event_output_stream = EventOutputStream.new(
   Twitter.verify(tokens[:consumer], tokens[:access_token])
 )
 
+puts "begin to read timeline. @#{$event_output_stream.user[:screen_name]}"
+
 Twitter.each_post(tokens[:consumer], tokens[:access_token]) do |p|
   begin
     if p['retweeted_status'];   $event_output_stream.retweet(p)

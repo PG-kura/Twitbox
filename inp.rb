@@ -47,10 +47,7 @@ mode = nil
 print DEFAULT_PROMPT
 while line = (STDIN.gets)[0..-2]
   if mode
-    if line == 'exit'
-      mode = nil
-      print DEFAULT_PROMPT
-    elsif mode.accept(line)
+    if line == 'exit' or mode.accept(line)
       mode = nil
       print DEFAULT_PROMPT
     end

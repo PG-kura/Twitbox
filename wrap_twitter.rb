@@ -3,6 +3,7 @@
 require 'net/https'
 require 'oauth'
 require 'cgi'
+require 'json'
 
 module Twitter
 
@@ -26,6 +27,8 @@ module Twitter
             json = JSON.parse(chunk.strip)
             yield json
           rescue
+            puts "### parse error ###"
+            puts chunk.strip.inspect
           end
         end
       end
@@ -73,6 +76,7 @@ module Twitter
       ret[:name]        = res['name']
       ret[:screen_name] = res['screen_name']
     end
+
     ret
   end
 
