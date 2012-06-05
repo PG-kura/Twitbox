@@ -82,10 +82,13 @@ module Twitter
 
   def self.get_post(consumer, access_token, id)
     ret = {}
-    oauth_access(consumer, access_token, "https://api.twitter.com/1/statuses/show.json?id=#{id}") do |res|
+    oauth_access(consumer, access_token, "https://api.twitter.com/1/statuses/show.json?id=#{id}&include_my_retweet=1") do |res|
       ret[:id]          = res['id']
       ret[:text]        = res['text']
       ret[:screen_name] = res['user']['screen_name']
+      if res['current_user_retweet']
+        ret[:retweet_id]= res['current_user_retweet']['id']
+      end
     end
     ret
   end
@@ -107,6 +110,12 @@ module Twitter
 
   def self.retweet(consumer, access_token, id)
     url = "/statuses/retweet/#{id}.json"
+    param = {'id' => id}
+    access_token.post(url, param)
+  end
+
+  def self.destroy(consumer, access_token, id)
+    url = "/statuses/destroy/#{id}.json"
     param = {'id' => id}
     access_token.post(url, param)
   end

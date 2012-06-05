@@ -14,7 +14,7 @@ class MentionEvents
       :time => Time.now,
       :type => type
     }
-    while (Time.now - @ev[0][:time]) > 900 # 15 min
+    while (Time.now - @ev[0][:time]) > 600 # 10 min
       @ev.shift
     end
   end
