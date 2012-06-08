@@ -4,9 +4,8 @@ Twitbox
 フルスクリーンでターミナル開いて作業してるときにタイムラインが気になる紳士淑女のためのツールです。
 
 準備
-------
-  ``gem install oauth``  
-  ``gem install term-ansicolor``  
+------  
+  ``bundle install``  
   tokens.txt.sample みたいな感じで tokens.txt を作ってください。
 
 実行
