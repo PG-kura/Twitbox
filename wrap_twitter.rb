@@ -82,10 +82,11 @@ module Twitter
 
   def self.get_post(consumer, access_token, id)
     ret = {}
-    oauth_access(consumer, access_token, "https://api.twitter.com/1/statuses/show.json?id=#{id}&include_my_retweet=1") do |res|
+    oauth_access(consumer, access_token, "https://api.twitter.com/1/statuses/show.json?id=#{id}&include_my_retweet=1&include_entities=true") do |res|
       ret[:id]          = res['id']
       ret[:text]        = res['text']
       ret[:screen_name] = res['user']['screen_name']
+      ret[:urls]        = res['entities']['urls'].map{|u| u['expanded_url']}
       if res['current_user_retweet']
         ret[:retweet_id]= res['current_user_retweet']['id']
       end
